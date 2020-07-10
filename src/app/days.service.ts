@@ -5,5 +5,13 @@ import { Injectable } from '@angular/core';
 })
 export class DaysService {
 
-  constructor() { }
+  topicsArray: Array<string> = [];
+  name: string;
+  constructor(name: string) {
+    this.name= name;
+   }
+
+  addTopics(){
+    this.topicsArray.push();
+  }
 }
