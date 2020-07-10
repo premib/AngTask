@@ -1,17 +1,41 @@
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-3 ">
         <h2>Days</h2>
         <button class="btn btn-dark" (click)="addButton()">Add Days</button>
-        <div *ngFor="let iter of buttons" class="d-flex">
-            <button class="btn btn-primary mt-2 justify-self-center" (ngModel)= "currentButton" (click)= "showTopics(iter.val)">{{iter.val}}</button>
+        <div *ngFor="let iter of buttons" class="col-lg-2 align-self-center">
+            <button class="btn btn-primary mt-2 ml-7" (ngModel)= "currentButton" (click)= "showTopics(iter.val)">{{iter.val}}</button>
         </div>
         <p>{{currentButton}}</p>
     </div>
-    <div [ngClass]="{show:showTopic}" class="col-sm-3">
-        <h2>Topics</h2>
+    <div [ngClass]="{show:showTopic}" class="col-sm-3 ">
+        <h2 class="">Topics</h2>
         <button  class="btn btn-dark" (click)="addTopic()">Add Topics</button>
-        <div *ngFor="let iters of topicsDisplay" class="d-flex btn btn-secondary">
-            <button>{{iters}}</button>
+        <ng-template #content let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title">{{cuurentButton}},{{currentTopic}}</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>{{currentText}}&hellip;</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+            </div>
+          </ng-template>
+        <div *ngFor="let iters of topicsDisplay">
+            <button (ngModel)="currentTopic" class="d-flex mt-2 btn btn-secondary" (click)="showText(iters, content)">{{iters}}</button>
         </div>
+        
+        <p>{{currentTopic}}</p>
+    </div>
+    <div class="col-sm-5 d-flex flex-column">
+
+        
+        <form [formGroup]="myForm" (ngSubmit)="saveText(myForm)">
+            <textarea class="mt-5" name="texts" formControlName='text' (ngModel)="currentText" id="" cols="30" rows="10">{{currentText}}</textarea>
+            <button type="submit">Save</button>
+        </form>
     </div>
 </div>

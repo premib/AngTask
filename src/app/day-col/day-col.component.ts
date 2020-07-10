@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DaysService } from '../days.service'
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap'
 
 @Component({
   selector: 'app-day-col',
@@ -14,8 +16,14 @@ export class DayColComponent implements OnInit {
   showTopic: boolean;
   topicsDisplay: Array<any>= [];
   currentButton: string= "";
+  currentTopic: string= "";
+  currentText: string= "";
+  myForm;
 
-  constructor() { 
+  constructor(fb: FormBuilder, public modalService: NgbModal) {
+    this.myForm= fb.group({
+      'text': ['']
+    })
     this.showTopic= false;
   }
 
@@ -37,8 +45,24 @@ export class DayColComponent implements OnInit {
   }
   addTopic(){
     let keylength= Object.keys(this.buttonRef[this.currentButton]).length
-    this.buttonRef[this.currentButton]["topic"+(++keylength)]= ""
+    console.log(keylength,)
+    this.buttonRef[this.currentButton]["topic"+(++keylength)]= {};
+    this.buttonRef[this.currentButton]["topic"+(keylength)].value= "topic"+keylength;
+    console.log(this.buttonRef)
     this.showTopics(this.currentButton)
   }
 
+  showText(curt: string){
+    this.currentTopic= curt;
+    this.modalService.open(content, { size: 'lg' });
+    this.currentText= this.buttonRef[this.currentButton][this.currentTopic].value;
+
+  console.log(this.currentText)
+  }
+
+  saveText(form: FormGroup){
+    console.log(this.currentButton, this.currentTopic, this.currentText, form.value.text)
+    this.buttonRef[this.currentButton][this.currentTopic].value= form.value.text;
+    console.log(this.buttonRef)
+  }
 }
